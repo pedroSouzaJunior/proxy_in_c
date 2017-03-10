@@ -22,12 +22,16 @@ struct Var{
 	pthread_t Ponteiro;
 };
 
+/* método que manipula errors */
 void error(char* str){
 	printf("%s\n", str);
-
 }
 
-
+/**
+* Veja como configurar o firefox:
+*
+* http://wiki.uepg.br/index.php/Proxy_para_Mozilla_Firefox
+*/
 int main (int argc, char const *argv[])
 {
 	int sock, /*socket*/
@@ -78,10 +82,9 @@ int main (int argc, char const *argv[])
 		newsock = accept(sock, (struct sockaddr*)&client_a, (socklen_t*)&clilen);
 		printf("Nova conexao encontrada. Aceitando.\n");
 
-		if(newsock < 0)
-			error("Problema ao aceitar conexão");
+		if(newsock < 0) error("Problema ao aceitar conexão");
 
-		/*aloca ums estrutura para passar os parametros*/
+		/*aloca uma estrutura para passar os parametros*/
 		var = (struct Var*) malloc (sizeof(struct Var));
 		var->Sock = newsock;
 
