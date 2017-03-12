@@ -240,14 +240,23 @@ static void *Request_Manager(void *Var2){
 	pthread_exit(0);
 }
 
-/*
-Client request
-"GET /index.html HTTP/1.1
-Host: www.example.com
-Connection: close"
+/****************************************
 
-Server response
-"HTTP/1.1 200 OK
+		EXEMPLO DE REQUISIÇÃO
+
+*****************************************
+
+GET /index.html HTTP/1.1
+Host: www.example.com
+Connection: close
+
+****************************************
+
+		EXEMPLO DE RESPOSTA
+
+*****************************************
+
+HTTP/1.1 200 OK
 Date: Mon, 23 May 2005 22:38:34 GMT
 Server: Apache/1.3.3.7 (Unix) (Red-Hat/Linux)
 Last-Modified: Wed, 08 Jan 2003 23:11:55 GMT
@@ -264,25 +273,6 @@ Connection: close
 <body>
   Hello World, this is a very simple HTML document.
 </body>
-</html>"
+</html>
 
-//verificar se o dominio é bloqueado
-			buffer = "HTTP/1.1 200 OK
-				Date: Mon, 23 May 2005 22:38:34 GMT
-				Server: Apache/1.3.3.7 (Unix) (Red-Hat/Linux)
-				Last-Modified: Wed, 08 Jan 2003 23:11:55 GMT
-				ETag: \"3f80f-1b6-3e1cb03b\"
-				Content-Type: text/html; charset=UTF-8
-				Content-Length: 138
-				Accept-Ranges: bytes
-				Connection: close
-
-				<html>
-				<head>
-				  <title>An Example Page</title>
-				</head>
-				<body>
-				  Dominio bloqueado.
-				</body>
-				</html>"
 */
