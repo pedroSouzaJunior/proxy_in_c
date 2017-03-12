@@ -39,7 +39,7 @@ struct Cache {
 	int size_MB;
 	/* adicionar hashtable */
 	/* adicionar fila */
-}
+};
 
 /* método que manipula errors */
 void error(char* str){
@@ -56,20 +56,23 @@ void error(char* str){
 */
 int main (int argc, char const *argv[])
 {
-	int sock, /*socket*/
-		newsock;
+	int sock, newsock;
+	int clilen;
 
 	struct Var *var;
-	int clilen;
+	struct Cache *cache;
 
 	/* declarando estrutura do socket*/
 	struct sockaddr_in client_a;
 	struct sockaddr_in server_a;
 
 	if(argc == 3)
+	{
 		Porta = atoi(argv[1]);
-	else{
-		printf("Siga a formatação: ./proxy [porta] [tamanho_da_cache_em_MB]\n\n");
+	}
+	else
+	{
+		error("Siga a formatação: ./proxy [porta] [tamanho_da_cache_em_MB]");
 		return 0;
 	}
 
@@ -82,21 +85,29 @@ int main (int argc, char const *argv[])
 	server_a.sin_port = htons(Porta);
 	server_a.sin_addr.s_addr = INADDR_ANY;
 
-	/*inicializar o socket com as opções*/
+	/*inicializar o socket com as opções TCP */
 	sock = socket(AF_INET, SOCK_STREAM, IPPROTO_TCP);
 
 	/*verifica se ocorreu erro na inicialização*/
-	if (sock < 0){
+	if (sock < 0)
+	{
 		error("Problema ao iniciar socket");
 		return 0;
 	}
 
 	/*bindar ao socket*/
 	if(bind(sock, (struct sockaddr*)&server_a, sizeof(server_a)) < 0)
+	{
 		error("Erro ao bindar");
+		return 0;
+	}
 
 
 	/* criar estrutura de dados da cache */
+	cache = (struct Cache*) malloc (sizeof(struct Cache));
+	cache->size_MB = atoi(argv[2]);
+
+	printf("Tamanhho da cache: %d\n", cache->size_MB);
 
 	while(1)
 	{
@@ -125,6 +136,7 @@ int main (int argc, char const *argv[])
 static void *Request_Manager(void *Var2){
 	int Socket_srv1, Socket_srv2;
 	struct Var* Var;
+	struct Cache* cache;
 	char buffer[40000];
 	size_t buff_size = 39999;
 	char Request[40000];
@@ -150,6 +162,8 @@ static void *Request_Manager(void *Var2){
 	}
 	else{
 		printf("Thread: %d bytes recebidos. Processando requisicao.\n", J);
+
+		printf("Tamanho da cache: %d\n", cache->size_MB);
 
 		/*Inicializa a estrutura de conexao*/
 		memset((char*)&Srv_addr, 0, sizeof(Srv_addr));
