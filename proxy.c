@@ -1,3 +1,12 @@
+/*
+* Universidade Federal do Mato Grosso do Sul
+* Faculdade de Computação
+* Redes de Computadores
+*
+* Mateus Gabi Moreira / Engenharia de Software
+* Pedro Souza Júnior / Ciência da Computação
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -13,14 +22,24 @@
 #include <pthread.h> 
 #include <sys/time.h>
 
+/* método que gerencia a requisição do cliente */
 static void *Request_Manager(void *);
 
+/* porta que o proxy irá escutar */
 int Porta;
 
+/* estrutura que serve para saber qual socket e sua thread */
 struct Var{
 	int Sock;
 	pthread_t Ponteiro;
 };
+
+/* cache do proxy, isso "diminui" o tempo de resposta */
+struct Cache {
+	int size_MB;
+	/* adicionar hashtable */
+	/* adicionar fila */
+}
 
 /* método que manipula errors */
 void error(char* str){
@@ -31,6 +50,9 @@ void error(char* str){
 * Veja como configurar o firefox:
 *
 * http://wiki.uepg.br/index.php/Proxy_para_Mozilla_Firefox
+*
+* argv[1] -> Porta
+* argv[2] -> tamanho da cache em MB
 */
 int main (int argc, char const *argv[])
 {
@@ -43,9 +65,11 @@ int main (int argc, char const *argv[])
 	/* declarando estrutura do socket*/
 	struct sockaddr_in client_a;
 	struct sockaddr_in server_a;
-	if(argc == 2)
+
+	if(argc == 3)
 		Porta = atoi(argv[1]);
 	else{
+		printf("Siga a formatação: ./proxy [porta] [tamanho_da_cache_em_MB]\n\n");
 		return 0;
 	}
 
@@ -70,6 +94,9 @@ int main (int argc, char const *argv[])
 	/*bindar ao socket*/
 	if(bind(sock, (struct sockaddr*)&server_a, sizeof(server_a)) < 0)
 		error("Erro ao bindar");
+
+
+	/* criar estrutura de dados da cache */
 
 	while(1)
 	{
