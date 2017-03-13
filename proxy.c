@@ -145,8 +145,6 @@ static void *Request_Manager(void *Var2){
 	struct hostent * Server;
 	struct sockaddr_in Srv_addr;
 
-	/*size_t Tam1, Tam2, Tam3, Tam4;*/
-
 	int J;
 
 	char* SiteBloqueado = "HTTP/1.0 200 OK\nConnection: close\n\n<html><head><title>An Acesso Negado</title></head><body>Dominio bloqueado.</body></html>";
@@ -156,7 +154,8 @@ static void *Request_Manager(void *Var2){
 	printf("Thread: Recebendo requisicao. ->%d\n", Var->Sock);
 	
 	/*recebe requisição do cliente*/
-	if((J = recv(Var->Sock, buffer, buff_size, 0)) < 0){
+	if((J = recv(Var->Sock, buffer, buff_size, 0)) < 0)
+	{
 		printf("Erro ao receber dados de requisicao.\n");
 	}
 	else{
