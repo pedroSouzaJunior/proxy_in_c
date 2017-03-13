@@ -196,48 +196,7 @@ static void *Request_Manager(void *Var2){
 				else
 					printf("Thread: Conectado ao servidor com sucesso.\n");
 
-				/*Verifica se o site possui cache
-				if(tem_cache()){
-					//Envia o buffer para o servidor
-					write(Socket_srv2, buffer_modificado, buff_size);
-
-					//Pedir cabeçalho
-
-					//compara data de modificação
-					if(cache_ok){
-						//Fecha conexao server
-
-						//Envia cache para cliente
-
-					}
-					else{
-						//Faz requisição completa
-
-						//Envia o buffer para o servidor
-						J = send(Socket_srv1, buffer, strlen(buffer), 0);
-
-						//recebe dados do site, trata os dados e repassa ao cliente
-						if(J < 0)
-							printf("Thread: Error writing to socket\n");
-						else{
-							do
-							{
-								//Limpa buffer
-								memset(buffer, 0, 40000);
-
-								//Recebe resposta do servidor
-								J = recv(Socket_srv1, buffer, 40000, 0);
-								
-								//Encaminha o buffer para o cliente
-								if(J > 0)
-									send(Var->Sock, buffer, J, 0);
-
-							}while(J > 0);
-						}
-					}
-				}
-				else{*/
-
+				
 					/*Envia o buffer para o servidor*/
 					J = send(Socket_srv1, buffer, strlen(buffer), 0);
 
