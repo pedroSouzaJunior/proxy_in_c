@@ -136,7 +136,6 @@ int main (int argc, char const *argv[])
 static void *Request_Manager(void *Var2){
 	int Socket_srv1, Socket_srv2;
 	struct Var* Var;
-	struct Cache* cache;
 	char buffer[40000];
 	size_t buff_size = 39999;
 	char Request[40000];
@@ -162,8 +161,6 @@ static void *Request_Manager(void *Var2){
 	}
 	else{
 		printf("Thread: %d bytes recebidos. Processando requisicao.\n", J);
-
-		printf("Tamanho da cache: %d\n", cache->size_MB);
 
 		/*Inicializa a estrutura de conexao*/
 		memset((char*)&Srv_addr, 0, sizeof(Srv_addr));
