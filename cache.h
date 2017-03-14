@@ -3,29 +3,38 @@
 
 #include<stdio.h>
 #include<stdlib.h>
+#include "list.h"
 
-int tamanho_max_MB;
-int tamanho_atual_MB;
 
-No* lista;
-// hashtable* hashtable;
+
+
+
+struct cache{
+
+    int tamanho_max_MB;
+    int tamanho_atual_MB;
+    // hashtable* hashtable;
+};
+
+
 
 /*
 * Insere um dado na cache
 */
-void inserir(char[] url, int tamanho, char* dados)
+void inserir(cache* cache, char[] url, int tamanhoEmBytes, char* dados)
 {
 
     /* se tem espaço livre, adiciona */
-    if((espaco_livre() - tamanho) > 0)
+    if((espaco_livre() - tamanhoEmBytes) > 0)
     {
         Hashtable* ponteiro = hashtable->inserir(url, dados);
-        lista->inserir(ponteiro);
-        tamanho_atual_MB = tamanho_atual_MB + tamanho;
+        insere
+        /*lista->inserir(ponteiro);*/
+        tamanho_atual_MB = tamanho_atual_MB + tamanhoEmBytes;
     }
     else 
     {
-        Hashtable* no = lista->removerLRU();
+        Hashtable* no = lista.removerLRU();
         hashtable->remover(no->chave);
         tamanho_atual_MB = tamanho_atual_MB + no->tamanho;
     }

@@ -7,8 +7,8 @@
 
 struct No  {
 	int dado;
-	struct No* prox;
-	struct No* prev;
+	 No* prox;
+	 No* prev;
 };
 
 struct No* cabeca; // global variable - pointer to head node.
@@ -59,7 +59,12 @@ void Print() {
 	printf("\n");
 }
 
-
+No* removerLRU(){
+	No* temp = list->LRU;
+	list->LRU = list->prox;
+	cabeca = list->prox;
+	return temp;
+}
 
 
 #endif
