@@ -5,76 +5,61 @@
 #include<stdio.h>
 #include<stdlib.h>
 
-struct Node  {
-	int data;
-	struct Node* next;
-	struct Node* prev;
+struct No  {
+	int dado;
+	struct No* prox;
+	struct No* prev;
 };
 
-struct Node* head; // global variable - pointer to head node.
+struct No* cabeca; // global variable - pointer to head node.
+
 
 //Creates a new Node and returns pointer to it. 
-struct Node* GetNewNode(int x) {
-	struct Node* newNode
-		= (struct Node*)malloc(sizeof(struct Node));
-	newNode->data = x;
-	newNode->prev = NULL;
-	newNode->next = NULL;
-	return newNode;
+struct No* criaNo(int x) {
+	struct No* novoNo = (struct No*)malloc(sizeof(struct No));
+	novoNo->dado = x;
+	novoNo->prev = NULL;
+	novoNo->prox = NULL;
+	return novoNo;
 }
 
 //Inserts a Node at head of doubly linked list
-void InsertAtHead(int x) {
-	struct Node* newNode = GetNewNode(x);
-	if(head == NULL) {
-		head = newNode;
+void insereCabeca(int x) {
+	struct No* novoNo = criaNo(x);
+	if(cabeca == NULL) {
+		cabeca = novoNo;
 		return;
 	}
-	head->prev = newNode;
-	newNode->next = head; 
-	head = newNode;
+	cabeca->prev = novoNo;
+	novoNo->prox = cabeca; 
+	cabeca = novoNo;
 }
 
 //Inserts a Node at tail of Doubly linked list
-void InsertAtTail(int x) {
-	struct Node* temp = head;
-	struct Node* newNode = GetNewNode(x);
-	if(head == NULL) {
-		head = newNode;
+void insereCauda(int x) {
+	struct No* temp = cabeca;
+	struct No* novoNo = criaNo(x);
+	if(cabeca == NULL) {
+		cabeca = novoNo;
 		return;
 	}
-	while(temp->next != NULL) temp = temp->next; // Go To last Node
-	temp->next = newNode;
-	newNode->prev = temp;
+	while(temp->prox != NULL) temp = temp->prox; // Go To last Node
+	temp->prox = novoNo;
+	novoNo->prev = temp;
 }
 
 //Prints all the elements in linked list in forward traversal order
 void Print() {
-	struct Node* temp = head;
+	struct No* temp = cabeca;
 	printf("Forward: ");
 	while(temp != NULL) {
-		printf("%d ",temp->data);
-		temp = temp->next;
-	}
-	printf("\n");
-}
-
-//Prints all elements in linked list in reverse traversal order. 
-void ReversePrint() {
-	struct Node* temp = head;
-	if(temp == NULL) return; // empty list, exit
-	// Going to last Node
-	while(temp->next != NULL) {
-		temp = temp->next;
-	}
-	// Traversing backward using prev pointer
-	printf("Reverse: ");
-	while(temp != NULL) {
-		printf("%d ",temp->data);
-		temp = temp->prev;
+		printf("%d ",temp->dado);
+		temp = temp->prox;
 	}
 	printf("\n");
 }
 
 
-#endif 
+
+
+#endif

@@ -4,7 +4,7 @@
 * Redes de Computadores
 *
 * Mateus Gabi Moreira / Engenharia de Software
-* Pedro Souza Júnior / Ciência da Computação
+* Pedro Souza Junior / Ciência da Computação
 */
 
 #include <stdio.h>
