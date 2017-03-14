@@ -169,6 +169,12 @@ static void *Request_Manager(void *Var2){
 		/*Isola o endereço do host*/
 		sscanf(buffer, "%[^\n] %[^\n] %s", Request, Host, Body);
 	    sscanf(Host, " Host: %s ", Host);
+
+		// if (strcasecmp(Request, "GET"))
+		// {
+		// 	printf("Esse proxy só aceita requisições GET.\n");
+		// 	return 0;
+		// }
 		
 		/*Caso o tipo de requisicao seja GET*/
 		if(!strncmp(Request, "GET", 3)){
