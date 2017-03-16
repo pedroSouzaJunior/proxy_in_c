@@ -147,8 +147,6 @@ static void *Request_Manager(void *Var2){
 
 	int J;
 
-	char* SiteBloqueado = "HTTP/1.0 200 OK\nConnection: close\n\n<html><head><title>An Acesso Negado</title></head><body>Dominio bloqueado.</body></html>";
-
 	Var = (struct Var*) Var2;
 
 	printf("Thread: Recebendo requisicao. ->%d\n", Var->Sock);
@@ -182,13 +180,13 @@ static void *Request_Manager(void *Var2){
 			
 			/*Resolve o endereço do host*/
 			if((Server = gethostbyname(Host)) == 0)
+			{
 				printf("Thread: Erro ao resolver host\n");
+			}
 	
 			
 			memcpy((char*) &Srv_addr.sin_addr.s_addr, Server->h_addr_list[0], Server->h_length);
 
-			/*Verifica se o site é permitido*/
-			if(1){
 				/*Conecta socket*/
 				printf("Thread: Configurando Socket\n");
 				if((Socket_srv1 = socket(AF_INET,SOCK_STREAM,IPPROTO_TCP)) < 0)
@@ -197,9 +195,12 @@ static void *Request_Manager(void *Var2){
 				/*conecta ao site*/
 				printf("Thread: Conectando ao servidor\n");
 				if((Socket_srv2 = connect(Socket_srv1, (struct sockaddr*) &Srv_addr, (socklen_t) sizeof(struct sockaddr))) < 0)
+				{
 					printf("Thread: Erro %d\n", (int )Socket_srv2);
-				else
+		}
+				else{
 					printf("Thread: Conectado ao servidor com sucesso.\n");
+				}
 
 				
 					/*Envia o buffer para o servidor*/
@@ -207,7 +208,9 @@ static void *Request_Manager(void *Var2){
 
 					/*recebe dados do site, trata os dados e repassa ao cliente*/
 					if(J < 0)
+					{
 						printf("Thread: Error writing to socket\n");
+					}
 					else{
 						do
 						{
@@ -218,20 +221,12 @@ static void *Request_Manager(void *Var2){
 							J = recv(Socket_srv1, buffer, 40000, 0);
 							
 							/*Encaminha o buffer para o cliente*/
-							if(J > 0)
-								send(Var->Sock, buffer, J, 0);
+							if(J > 0) send(Var->Sock, buffer, J, 0);
 
 						}while(J > 0);
 					}
-				/*}*/
 				close(Socket_srv2);
 				close(Socket_srv1);
-			}
-			/*Envia mensagem de site bloqueado*/
-			else{
-				/*Encaminha o buffer para o cliente*/
-				send(Var->Sock, SiteBloqueado, strlen(SiteBloqueado), 0);
-			}
 		}
 		else{
 			printf("Thread: Pacote nao reconhecido.\n\t%s\n", Request);
@@ -241,6 +236,10 @@ static void *Request_Manager(void *Var2){
 	free(Var);
 	pthread_exit(0);
 }
+
+
+
+
 
 /****************************************
 
